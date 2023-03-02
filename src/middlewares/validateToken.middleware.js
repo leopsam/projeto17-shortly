@@ -1,18 +1,13 @@
-import db from '../database/database.connection.js'
+import {db} from '../database/database.connection.js'
 
-export async function verificaToken(req, res, next) {
+export async function validateToken(req, res, next) {
    
     const { authorization } = req.headers
-    const token = authorization?.replace("Bearer ", '')
-
-  if (!token) return res.status(422).send("Informe o token!")
+    const token = authorization?.replace("Bearer ", '')  
 
   try {
-    const session = await db.collection("sessions").findOne({ token })
-    
-    if (!session) return res.status(401).send("Você não tem autorização")  
-
-    res.locals.sessao = session
+    if (!token) return res.status(401).send("Informe o token!")    
+    res.locals.token = token
 
     console.log("Sucesso no token")
 
