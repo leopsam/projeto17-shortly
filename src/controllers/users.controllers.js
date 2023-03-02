@@ -33,7 +33,7 @@ export async function userLogin(req, res) {
     if(bcrypt.compareSync(password, userExist.rows[0].password)){
       const token = uuidV4()
 
-      res.status(200).send(token)  
+      res.status(200).send({token})  
     }else{
       res.status(401).send("usuario ou senha invalidos")
     }
