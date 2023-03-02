@@ -1,8 +1,11 @@
 import { db } from '../database/database.connection.js'
+import bcrypt from 'bcrypt'
+import { v4 as uuidV4 } from 'uuid'
 
 export async function createUser(req, res) {
-  const { name, email, password, confirmPassword } = req.body
-  const passwordHash = bcrypt.hashSync(user.senha, 18);
+    console.log("rodou")
+  const { name, email, password, confirmPassword} = req.body
+  const passwordHash = bcrypt.hashSync(password, 18);
 
   //if (cpf.length != 11) return res.sendStatus(400)
   //if (isNaN(Number(cpf))) return res.sendStatus(400)
@@ -14,14 +17,18 @@ export async function createUser(req, res) {
   //})
 
   try {   
-    await db.query(`INSERT INTO users (name, email, password) VALUES ($1, $2, $3);`, [name, email, password])
+    await db.query(`INSERT INTO users (name, email, password) VALUES ($1, $2, $3);`, [name, email, passwordHash])
     res.sendStatus(201)
   } catch (error) {
     res.send(error.message).status(422)
   }
 }
 
+export async function teste(req, res) {
+    console.log("rodou teste")
+}
 
+/*
 
 export async function cadastro(req, res) {
     const user = req.body;
@@ -35,7 +42,7 @@ export async function cadastro(req, res) {
       return res.status(500).send(err.message);
     }
 }
-/*
+
 export async function buscarCliente(req, res) {
     try {
       const cliente = await db.query("SELECT * FROM customers")
