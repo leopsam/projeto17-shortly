@@ -27,28 +27,9 @@ SET default_table_access_method = heap;
 CREATE TABLE public.rank (
     id integer NOT NULL,
     "userShortId" integer NOT NULL,
-    "linksCount" integer DEFAULT 0 NOT NULL
+    "linksCount" integer DEFAULT 0 NOT NULL,
+    "createdAt" timestamp without time zone DEFAULT now() NOT NULL
 );
-
-
---
--- Name: rank_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.rank_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: rank_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.rank_id_seq OWNED BY public.rank.id;
 
 
 --
@@ -59,28 +40,9 @@ CREATE TABLE public.short (
     id integer NOT NULL,
     url text NOT NULL,
     "shortUrl" text NOT NULL,
-    "visitCount" integer DEFAULT 0 NOT NULL
+    "visitCount" integer DEFAULT 0 NOT NULL,
+    "createdAt" timestamp without time zone DEFAULT now() NOT NULL
 );
-
-
---
--- Name: short_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.short_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: short_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.short_id_seq OWNED BY public.short.id;
 
 
 --
@@ -90,28 +52,9 @@ ALTER SEQUENCE public.short_id_seq OWNED BY public.short.id;
 CREATE TABLE public."userShort" (
     id integer NOT NULL,
     "userId" integer NOT NULL,
-    "shortId" integer NOT NULL
+    "shortId" integer NOT NULL,
+    "createdAt" timestamp without time zone DEFAULT now() NOT NULL
 );
-
-
---
--- Name: userShort_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public."userShort_id_seq"
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: userShort_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public."userShort_id_seq" OWNED BY public."userShort".id;
 
 
 --
@@ -123,56 +66,9 @@ CREATE TABLE public.users (
     name character varying(50) NOT NULL,
     email character varying(100) NOT NULL,
     password character varying(18) NOT NULL,
-    "visitCount" integer DEFAULT 0 NOT NULL
+    "visitCount" integer DEFAULT 0 NOT NULL,
+    "createdAt" timestamp without time zone DEFAULT now() NOT NULL
 );
-
-
---
--- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.users_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
-
-
---
--- Name: rank id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.rank ALTER COLUMN id SET DEFAULT nextval('public.rank_id_seq'::regclass);
-
-
---
--- Name: short id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.short ALTER COLUMN id SET DEFAULT nextval('public.short_id_seq'::regclass);
-
-
---
--- Name: userShort id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public."userShort" ALTER COLUMN id SET DEFAULT nextval('public."userShort_id_seq"'::regclass);
-
-
---
--- Name: users id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
 
 
 --
@@ -197,34 +93,6 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-
-
---
--- Name: rank_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
---
-
-SELECT pg_catalog.setval('public.rank_id_seq', 1, false);
-
-
---
--- Name: short_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
---
-
-SELECT pg_catalog.setval('public.short_id_seq', 1, false);
-
-
---
--- Name: userShort_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
---
-
-SELECT pg_catalog.setval('public."userShort_id_seq"', 1, false);
-
-
---
--- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
---
-
-SELECT pg_catalog.setval('public.users_id_seq', 1, false);
 
 
 --
