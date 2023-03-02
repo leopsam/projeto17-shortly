@@ -65,7 +65,7 @@ CREATE TABLE public.users (
     id integer NOT NULL,
     name character varying(50) NOT NULL,
     email character varying(100) NOT NULL,
-    password character varying(255) NOT NULL,
+    password text NOT NULL,
     "visitCount" integer DEFAULT 0 NOT NULL,
     "createdAt" timestamp without time zone DEFAULT now() NOT NULL
 );
@@ -125,14 +125,6 @@ ALTER TABLE ONLY public."userShort"
 
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_email_key UNIQUE (email);
-
-
---
--- Name: users users_name_key; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.users
-    ADD CONSTRAINT users_name_key (name);
 
 
 --
