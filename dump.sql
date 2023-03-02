@@ -132,7 +132,7 @@ ALTER TABLE ONLY public.users
 --
 
 ALTER TABLE ONLY public.users
-    ADD CONSTRAINT users_name_key UNIQUE (name);
+    ADD CONSTRAINT users_name_key (name);
 
 
 --
