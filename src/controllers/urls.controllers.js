@@ -14,8 +14,8 @@ export async function shorten(req, res) {
   try {
     await db.query(`INSERT INTO short (url, "shortUrl") VALUES ($1, $2);`, [url, shortUrl])
 
-    const short = await db.query(`SELECT * FROM short WHERE "shortUrl" = $1;`, [shortUrl])
-    res.status(201).send(short.rows)    
+    const short = await db.query(`SELECT id, "shortUrl" FROM short WHERE "shortUrl" = $1;`, [shortUrl])
+    res.status(201).send(short.rows[0])    
   } catch (error) {
     res.status(422).send(error.message)
   }
