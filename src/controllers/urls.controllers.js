@@ -72,20 +72,18 @@ export async function shortenDelete(req, res) {
   console.log("rodou shortenDelete (deleta links curto)") //deletar linha depois 
   const { id } = req.params;  
   
-  const session = res.locals.sessao //erro 
-  if (!session.rows[0]) return res.status(401).send("Você não está logado!") //erro
-  console.log(session.rows[0].userId)
+  const session = res.locals.sessao
+  if (!session.rows[0]) return res.status(401).send("Você não está logado!")
 
   try {
-    const urlValid = await db.query(`SELECT * FROM short WHERE "id" = $1;`, [id]) 
-    console.log(urlValid.rows[0].userId)
-    
+    const urlValid = await db.query(`SELECT * FROM short WHERE "id" = $1;`, [id])    
 
     if(urlValid.rows[0].userId != session.rows[0].userId) return res.status(401).send("Não pertence a esse usuario")
-    if(!urlValid.rows[0]) return res.status(404).send("deletado")
+    if(!urlValid.rows[0]) return res.status(404).send(error.message)
 
     await db.query(`DELETE FROM short WHERE "id" = $1;`, [id]) 
     res.status(204).send("deletado")
+
   } catch (error) {
     res.status(404).send(error.message)
   }

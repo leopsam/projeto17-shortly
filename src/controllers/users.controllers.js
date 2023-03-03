@@ -18,7 +18,7 @@ export async function createUser(req, res) {
     await db.query(`INSERT INTO users (name, email, password) VALUES ($1, $2, $3);`, [name, email, passwordHash])
     res.sendStatus(201)
   } catch (error) {
-    res.send(error.message).status(422)
+    res.status(422).send(error.message)
   }
 }
 
@@ -64,6 +64,30 @@ export async function userMe(req, res) {
       visitCount: user.visitCount, 
       shortenedUrls: shortExist.rows
     }) 
+    
+  } catch (error) {
+    res.status(422).send(error.message)
+  }
+}
+
+export async function rankingUsers(req, res) {
+  console.log("rodou ranking (ranking usuarios)") //deletar linha depois
+
+
+  try { 
+    const userExist = await db.query(`
+      SELECT users.id, users.name, COUNT(short."userId") AS "linksCount", SUM(short."visitCount") AS "visitCount"
+      FROM short
+      JOIN users 
+      ON users.id = short."userId"
+      GROUP BY users.id
+      ORDER BY "visitCount" DESC
+      LIMIT 10`
+    )  
+
+    const user = userExist.rows
+    
+    res.status(200).send(user) 
     
   } catch (error) {
     res.status(422).send(error.message)
