@@ -84,7 +84,8 @@ export async function shortenDelete(req, res) {
     if(urlValid.rows[0].userId != session.rows[0].userId) return res.status(401).send("Não pertence a esse usuario")
     if(!urlValid.rows[0]) return res.status(404).send("deletado")
 
-      res.status(204).send("deletado")
+    await db.query(`DELETE FROM short WHERE "id" = $1;`, [id]) 
+    res.status(204).send("deletado")
   } catch (error) {
     res.status(404).send(error.message)
   }
