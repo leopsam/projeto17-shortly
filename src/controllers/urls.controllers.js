@@ -40,3 +40,25 @@ export async function shortenId(req, res) {
     res.status(404).send(error.message)
   }
 }
+
+export async function shortenOpen(req, res) {
+  console.log("rodou shorten (abrir links curto)") //deletar linha depois 
+  const { shortUrl } = req.params;
+  try {
+    const urlValid = await db.query(`SELECT url FROM short WHERE "shortUrl" = $1;`, [shortUrl]) 
+
+    //console.log(urlValid.rows[0].url)
+    if(urlValid.rows[0].url){
+
+      const quant = await db.query(`SELECT "visitCount" FROM short WHERE "shortUrl" = $1;`, [shortUrl]) 
+      console.log(quant.rows[0].visitCount)
+      await db.query(`UPDATE short SET "visitCount" = ${quant.rows[0].visitCount += 1} WHERE "shortUrl" = $1;`, [shortUrl])
+      //UPDATE produtos SET preco=980000 WHERE nome='Violão Lava ME 2';
+
+      res.redirect(302, urlValid.rows[0].url);
+    }
+
+  } catch (error) {
+    res.status(404).send(error.message)
+  }
+}
