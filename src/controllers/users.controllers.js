@@ -28,10 +28,13 @@ export async function userLogin(req, res) {
 
   const userExist = await db.query(`SELECT * FROM users WHERE email = $1;`, [email])  
   if(!userExist.rows[0]) return res.status(401).send("usuario ou senha invalidos")
+  console.log(userExist.rows[0].id)
 
   try {    
     if(bcrypt.compareSync(password, userExist.rows[0].password)){
       const token = uuidV4()
+     
+      await db.query(`INSERT INTO session ("userId", token) VALUES ($1, $2);`, [userExist.rows[0].id, token])  
 
       res.status(200).send({token})  
     }else{

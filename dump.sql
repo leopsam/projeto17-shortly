@@ -21,6 +21,37 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
+-- Name: session; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.session (
+    id integer NOT NULL,
+    "userId" integer NOT NULL,
+    token character varying(100) NOT NULL
+);
+
+
+--
+-- Name: session_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.session_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: session_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.session_id_seq OWNED BY public.session.id;
+
+
+--
 -- Name: short; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -88,6 +119,13 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
+-- Name: session id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.session ALTER COLUMN id SET DEFAULT nextval('public.session_id_seq'::regclass);
+
+
+--
 -- Name: short id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -99,6 +137,12 @@ ALTER TABLE ONLY public.short ALTER COLUMN id SET DEFAULT nextval('public.short_
 --
 
 ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- Data for Name: session; Type: TABLE DATA; Schema: public; Owner: -
+--
+
 
 
 --
@@ -121,6 +165,13 @@ INSERT INTO public.short VALUES (16, 'joao2@driven.com.br', 'NTJ8yVK6wS7sdsC4MR_
 INSERT INTO public.short VALUES (17, 'joao2@driven.com.br', '9NWXTcrvBGCiHomHUACDL', 0, '2023-03-02 21:47:06.73327');
 INSERT INTO public.short VALUES (18, 'joao2@driven.com.br', 'huejOr-FrjiFBhm7GD3Ji', 0, '2023-03-02 21:47:15.908241');
 INSERT INTO public.short VALUES (19, 'joao2@driven.com.br', 'KZF1c2UZMYxnNtJlgSlF9', 0, '2023-03-02 21:50:13.730507');
+INSERT INTO public.short VALUES (20, 'https://github.com/hapijs/joi/issues/1732', 'WGGpWSPyfVvgQ1ffL3Aps', 0, '2023-03-02 22:11:43.785863');
+INSERT INTO public.short VALUES (21, 'https://github.com/hapijs/joi/issues/1732', 'uLk5uFdGz4EtpI02SD5Ly', 0, '2023-03-02 22:23:23.799074');
+INSERT INTO public.short VALUES (22, 'https://github.com/hapijs/joi/issues/1732', 'oXbSun3oU_IlKCIMXUVgv', 0, '2023-03-02 22:23:50.05677');
+INSERT INTO public.short VALUES (23, 'https://github.com/hapijs/joi/issues/1732', 'iR-9U7hHnzU6OGCqBnUsX', 0, '2023-03-02 22:24:06.436365');
+INSERT INTO public.short VALUES (24, 'https://github.com/hapijs/joi/issues/1732', '7CtARPDZp4MBcHORhhMY6', 0, '2023-03-02 22:24:13.843819');
+INSERT INTO public.short VALUES (25, 'https://github.com/hapijs/joi/issues/1732', 'oEQ2stL_4R6e8eQku5GEV', 0, '2023-03-02 22:24:16.818468');
+INSERT INTO public.short VALUES (26, 'https://github.com/hapijs/joi/issues/1732', '0xZGz2HXStMPHmxjhnnTj', 0, '2023-03-02 22:24:40.705989');
 
 
 --
@@ -132,10 +183,17 @@ INSERT INTO public.users VALUES (5, 'João', 'joao2@driven.com.br', '$2b$10$bnqu
 
 
 --
+-- Name: session_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.session_id_seq', 1, false);
+
+
+--
 -- Name: short_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.short_id_seq', 19, true);
+SELECT pg_catalog.setval('public.short_id_seq', 26, true);
 
 
 --
@@ -143,6 +201,22 @@ SELECT pg_catalog.setval('public.short_id_seq', 19, true);
 --
 
 SELECT pg_catalog.setval('public.users_id_seq', 6, true);
+
+
+--
+-- Name: session session_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.session
+    ADD CONSTRAINT session_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: session session_token_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.session
+    ADD CONSTRAINT session_token_key UNIQUE (token);
 
 
 --
@@ -167,6 +241,14 @@ ALTER TABLE ONLY public.users
 
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: session session_userId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.session
+    ADD CONSTRAINT "session_userId_fkey" FOREIGN KEY ("userId") REFERENCES public.users(id);
 
 
 --
