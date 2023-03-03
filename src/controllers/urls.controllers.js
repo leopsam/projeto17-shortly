@@ -44,15 +44,22 @@ export async function shortenId(req, res) {
 export async function shortenOpen(req, res) {
   console.log("rodou shorten (abrir links curto)") //deletar linha depois 
   const { shortUrl } = req.params;
+  let soma = 0
   
   try {
     const urlValid = await db.query(`SELECT url FROM short WHERE "shortUrl" = $1;`, [shortUrl]) 
 
     if(urlValid.rows[0].url){
-      const quant = await db.query(`SELECT "visitCount" FROM short WHERE "shortUrl" = $1;`, [shortUrl]) 
-      console.log(quant.rows[0].visitCount)
-
+      const quant = await db.query(`SELECT * FROM short WHERE "shortUrl" = $1;`, [shortUrl]) 
+      
       await db.query(`UPDATE short SET "visitCount" = ${quant.rows[0].visitCount += 1} WHERE "shortUrl" = $1;`, [shortUrl])
+
+      const quantVisitUser = await db.query(`SELECT * FROM short WHERE "userId" = $1;`, [quant.rows[0].userId])
+      
+      quantVisitUser.rows.map((v) => soma += v.visitCount)
+
+      await db.query(`UPDATE users SET "visitCount" = ${soma} WHERE "id" = $1;`, [quant.rows[0].userId])
+      
       res.redirect(302, urlValid.rows[0].url);
     }
 
