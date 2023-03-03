@@ -7,7 +7,11 @@ const { Pool } = pg;
 
 const connection = ({
   connectionString: process.env.DATABASE_URL, 
-  ssl: true, 
+  ...(process.env.NODE_ENV === "production" && {
+    ssl: {
+      rejectUnauthorized: false,
+    },
+  }),
 });
 
 //if (process.env.MODE === 'prod') connection.ssl = true;
