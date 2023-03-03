@@ -11,7 +11,7 @@ export async function shorten(req, res) {
   if (!session.rows[0]) return res.status(401).send("Você não está logado!") //erro
 
   try {
-    await db.query(`INSERT INTO short (url, "shortUrl") VALUES ($1, $2);`, [url, shortUrl])
+    await db.query(`INSERT INTO short (url, "shortUrl", "userId") VALUES ($1, $2, $3);`, [url, shortUrl, session.rows[0].userId])
 
     const short = await db.query(`SELECT id, "shortUrl" FROM short WHERE "shortUrl" = $1;`, [shortUrl])
     res.status(201).send(short.rows[0])
@@ -22,7 +22,7 @@ export async function shorten(req, res) {
 }
 
 export async function shortenId(req, res) {
-  console.log("rodou shorten (procurando links curtos por ID)") //deletar linha depois
+  console.log("rodou shortenId (procurando links curtos por ID)") //deletar linha depois
   const { id } = req.params;
 
   try {
@@ -44,17 +44,15 @@ export async function shortenId(req, res) {
 export async function shortenOpen(req, res) {
   console.log("rodou shorten (abrir links curto)") //deletar linha depois 
   const { shortUrl } = req.params;
+  
   try {
     const urlValid = await db.query(`SELECT url FROM short WHERE "shortUrl" = $1;`, [shortUrl]) 
 
-    //console.log(urlValid.rows[0].url)
     if(urlValid.rows[0].url){
-
       const quant = await db.query(`SELECT "visitCount" FROM short WHERE "shortUrl" = $1;`, [shortUrl]) 
       console.log(quant.rows[0].visitCount)
-      await db.query(`UPDATE short SET "visitCount" = ${quant.rows[0].visitCount += 1} WHERE "shortUrl" = $1;`, [shortUrl])
-      //UPDATE produtos SET preco=980000 WHERE nome='Violão Lava ME 2';
 
+      await db.query(`UPDATE short SET "visitCount" = ${quant.rows[0].visitCount += 1} WHERE "shortUrl" = $1;`, [shortUrl])
       res.redirect(302, urlValid.rows[0].url);
     }
 

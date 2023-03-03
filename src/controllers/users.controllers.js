@@ -44,3 +44,28 @@ export async function userLogin(req, res) {
     res.status(422).send(error.message)
   }
 }
+
+export async function userMe(req, res) {
+  console.log("rodou userMe (buscar informações usuario)") //deletar linha depois
+
+  const session = res.locals.sessao
+
+  try {    
+    if (!session.rows[0]) return res.status(401).send("Você não está logado!")
+
+    const userExist = await db.query(`SELECT id, name, "visitCount" FROM users WHERE id = $1;`, [session.rows[0].userId])  
+    const user = userExist.rows[0]
+
+    const shortExist = await db.query(`SELECT id, "shortUrl", url, "visitCount" FROM short WHERE "userId" = ${session.rows[0].userId};`)
+    
+    res.status(200).send({
+      id: user.id,
+      name: user.name,
+      visitCount: user.visitCount, 
+      shortenedUrls: shortExist.rows
+    }) 
+    
+  } catch (error) {
+    res.status(422).send(error.message)
+  }
+}
