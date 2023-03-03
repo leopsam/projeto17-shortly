@@ -27,7 +27,8 @@ SET default_table_access_method = heap;
 CREATE TABLE public.session (
     id integer NOT NULL,
     "userId" integer NOT NULL,
-    token character varying(100) NOT NULL
+    token character varying(100) NOT NULL,
+    "createdAt" timestamp without time zone DEFAULT now() NOT NULL
 );
 
 
@@ -172,6 +173,11 @@ INSERT INTO public.short VALUES (23, 'https://github.com/hapijs/joi/issues/1732'
 INSERT INTO public.short VALUES (24, 'https://github.com/hapijs/joi/issues/1732', '7CtARPDZp4MBcHORhhMY6', 0, '2023-03-02 22:24:13.843819');
 INSERT INTO public.short VALUES (25, 'https://github.com/hapijs/joi/issues/1732', 'oEQ2stL_4R6e8eQku5GEV', 0, '2023-03-02 22:24:16.818468');
 INSERT INTO public.short VALUES (26, 'https://github.com/hapijs/joi/issues/1732', '0xZGz2HXStMPHmxjhnnTj', 0, '2023-03-02 22:24:40.705989');
+INSERT INTO public.short VALUES (27, 'https://github.com/hapijs/joi/issues/1732', 'mHd9IEZcczMLOE1b-EUjN', 0, '2023-03-02 23:08:55.335481');
+INSERT INTO public.short VALUES (28, 'https://github.com/hapijs/joi/issues/1732', 'h0_KGr-qTkMe9Jyp0LU-7', 0, '2023-03-02 23:09:18.539991');
+INSERT INTO public.short VALUES (29, 'https://github.com/hapijs/joi/issues/1732', 'uMdhvxF2j5OVXQGT_ATvc', 0, '2023-03-02 23:09:33.662089');
+INSERT INTO public.short VALUES (30, 'https://github.com/hapijs/joi/issues/1732', '7ZP5MegWRoBdd8kQsDNhV', 0, '2023-03-02 23:09:55.88472');
+INSERT INTO public.short VALUES (31, 'https://github.com/hapijs/joi/issues/1732', 'Bd67SVVdoO52gV2kOP97x', 0, '2023-03-02 23:10:20.96787');
 
 
 --
@@ -193,7 +199,7 @@ SELECT pg_catalog.setval('public.session_id_seq', 1, false);
 -- Name: short_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.short_id_seq', 26, true);
+SELECT pg_catalog.setval('public.short_id_seq', 31, true);
 
 
 --
