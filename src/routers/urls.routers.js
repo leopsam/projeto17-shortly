@@ -6,6 +6,6 @@ import { validateToken } from "../middlewares/validateToken.middleware.js"
 
 const router = Router()
 
-router.post("/urls/shorten", validateSchema(urlSchema), /*validateToken,*/ shorten) //erro
+router.post("/urls/shorten", validateSchema(urlSchema), validateToken, shorten) //erro
 
 export default router
