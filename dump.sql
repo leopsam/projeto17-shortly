@@ -33,26 +33,6 @@ CREATE TABLE public.session (
 
 
 --
--- Name: session_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.session_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: session_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.session_id_seq OWNED BY public.session.id;
-
-
---
 -- Name: short; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -64,26 +44,6 @@ CREATE TABLE public.short (
     "visitCount" integer DEFAULT 0 NOT NULL,
     "createdAt" timestamp without time zone DEFAULT now() NOT NULL
 );
-
-
---
--- Name: short_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.short_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: short_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.short_id_seq OWNED BY public.short.id;
 
 
 --
@@ -101,54 +61,9 @@ CREATE TABLE public.users (
 
 
 --
--- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.users_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
-
-
---
--- Name: session id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.session ALTER COLUMN id SET DEFAULT nextval('public.session_id_seq'::regclass);
-
-
---
--- Name: short id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.short ALTER COLUMN id SET DEFAULT nextval('public.short_id_seq'::regclass);
-
-
---
--- Name: users id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
-
-
---
 -- Data for Name: session; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.session VALUES (1, 5, 'b62d7a66-5506-4910-bedc-85c8eb1a82fb', '2023-03-03 00:12:58.006422');
-INSERT INTO public.session VALUES (2, 5, '4b3f71ee-525a-499b-a004-9da652268bb3', '2023-03-03 00:12:58.773848');
-INSERT INTO public.session VALUES (3, 5, 'a09d3463-f217-43f0-8f27-660a7508fb0f', '2023-03-03 00:12:59.556558');
-INSERT INTO public.session VALUES (4, 5, 'be25b34f-03aa-47cc-844f-72153184344e', '2023-03-03 00:13:00.256521');
 
 
 --
@@ -161,29 +76,6 @@ INSERT INTO public.session VALUES (4, 5, 'be25b34f-03aa-47cc-844f-72153184344e',
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.users VALUES (1, 'João', 'joao@driven.com.br', '$2b$10$KDFi64dl5fz3BgACtA2X2e7MrKoVtLLxsB9taTOmxWetbS3G0maHS', 0, '2023-03-02 18:51:47.494014');
-INSERT INTO public.users VALUES (5, 'João', 'joao2@driven.com.br', '$2b$10$bnquAcGsYYOYVcnReRapw.OUcUTERs2EoKRHTMQ0TqtqHJcmmhi1e', 0, '2023-03-02 19:23:54.230757');
-
-
---
--- Name: session_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
---
-
-SELECT pg_catalog.setval('public.session_id_seq', 4, true);
-
-
---
--- Name: short_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
---
-
-SELECT pg_catalog.setval('public.short_id_seq', 1, false);
-
-
---
--- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
---
-
-SELECT pg_catalog.setval('public.users_id_seq', 6, true);
 
 
 --
